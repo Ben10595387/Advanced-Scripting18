@@ -1,0 +1,10 @@
+Build something. Anything. Snowman was example. 
+
+CamelCasing-overhead command. 
+polysphere -r = command
+
+To select Ctrl+A 
+then ENTER(by number pad) 
+
+To duplicate 
+copy all relevant scripts in top window. And then copy in bottom window and enter. 
