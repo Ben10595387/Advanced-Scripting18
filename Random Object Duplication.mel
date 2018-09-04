@@ -1,0 +1,21 @@
+/*At a minimum, the function must define parameters for 1) the number of 
+duplicates (X) and 2) the range of placement (A, B).
+Duplicate the selected object(s) X number of times, as defined in the 
+function arguments.
+Randomly place each duplicated object throughout that scene within a 
+designated range, as defined in the function arguments*/
+
+
+string $Poly[] = 'ls -selection -flatten';
+
+if (size($Poly) <= 0)
+    warning "No object selected.";
+else 
+{
+    for ($object in $Poly)
+    {
+        duplicate $Poly rand(5); 
+        move $Poly rand(10);
+     }
+}
+        
