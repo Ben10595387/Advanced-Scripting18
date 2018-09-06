@@ -1,9 +1,3 @@
-/*At a minimum, the function must define parameters for 1) the number of 
-duplicates (X) and 2) the range of placement (A, B).
-Duplicate the selected object(s) X number of times, as defined in the 
-function arguments.
-Randomly place each duplicated object throughout that scene within a 
-designated range, as defined in the function arguments*/
 global proc string BlockD(){
 
 string $Poly[] = `ls -selection -flatten`;
@@ -17,7 +11,10 @@ else
     for ($i=0;$i < $randAmount; $i++)
     {
         duplicate -rr; 
-        move $object rand(1,10)(1,10)(1,10);
+        move $Blocks -ws -wd -x rand(1,10) -y rand(1,10) -z rand(1,10);
      }
 }
-}        
+return $Blocks;
+}
+
+
