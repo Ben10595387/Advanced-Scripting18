@@ -1,0 +1,12 @@
+//rename script
+renameSelected("name_##_type");
+global proc RenameSelectedObject(string $input)
+    {
+        string $SelectedObject[] = `ls -selection`;
+        string $newarray[]; 
+        tokenize $renameSelected "#" $newarray; 
+        int $begnumber = 1; //beginning number starting array.
+        int $recount = size($input) - (size($newarray[]) + size($new[1]());
+
+
+    }
