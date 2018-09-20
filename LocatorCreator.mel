@@ -1,0 +1,41 @@
+/*Create locators at center or at pivot point of objects
+createLocator( )
+need a variable or array to store selected objects. 
+count how many objects
+create locator - group objects, "Center pivot", ungroup, remember match object's previous location. 
+               - average out the position. 
+               - Create a cluster, match locator's position to Cluster's then delete cluster. 
+               - Create a Bounding box, use it's center- Clayton's favorite. 
+bounding box- average out xmin, xmax, ymin, ymax ect.                
+move locator
+-q quiries bounding box(how many verticies on a sphere?) only one object allowed for -q.
+orient locator
+"source" same as "Using" in C+.
+Can place script in maya folder, then you can just hit run script, instead of opening it.
+spaceLocator -p 0 0 0;
+move xform( absolute vx local)   
+*/
+global proc LocatorCreator ()
+{
+    string $sels[] = `ls -sl`;//assigns selection to array $sels
+    string $temp[] = `duplicate -rr $sels`;//duplicates selected objects, assigns to array. 
+    
+    if (size($temp)>1)
+        $temp = `polyUnite $temp`;//plyunite needs more than one object. This checks #
+    
+    float $Bbpos[];
+    $Bbpos = xform -q -boundingBox $sels;//this puts out the mins and maxs of the position.
+    delete -constructionHistory $temp[0];
+    delete $temp[0];
+
+    float $XPos, $Ypos, $Zpos; //Averages out xyand z coordinates in Bbpos. 
+    $XPos = ($Bbpos[0]+$Bbpos[3])/2;
+    $YPos = ($Bbpos[1]+$Bbpos[4])/2;
+    $ZPos = ($Bbpos[2]+$Bbpos[5])/2;
+
+    string $loc[] = spaceLocator -name "Center" -position 0 0 0; //creates locator at 000 w.s. 
+
+    xform -translation $XPos $YPos $ZPos -worldSpace -absolute $loc[0]; //match transform to center of BB. 
+    // need to create locator at 000, then move it or else the pivot point stays at 000. 
+}
+LocatorCreator();
