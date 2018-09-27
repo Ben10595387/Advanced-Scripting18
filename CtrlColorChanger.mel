@@ -1,0 +1,25 @@
+global proc ColorControls(string $Ctrl[], int $color)//assigning type of string Ctrl[] to Color Controls 
+//Sets color of specified control to a specific color. 
+//Can go into Layer editor and refer to the # of color there. 
+//enable override on $Ctrl
+string $shapes[];
+//Find shape node[s] on $shape
+$shapes = `listRelatives -shapes $Ctrl`;
+for ($shape in $shapes)
+{
+    if (`nodetype = $shape` == "nurbsCurve")
+    {
+    setAttr ($shape + ".overrideEnabled")1; //allows us to override color and turns it on (1)
+    setAttr ($shape + ".overrideColor") $color;
+    } else {
+        warning ("Selected object is not a Curve.");
+    }
+    
+}
+//set $Ctrl color to $color 
+//Create controls based on Selection
+//reference locator Creator for how to do this. 
+//for each selection match transforms of selection. 
+//for name and suffix (Grp needs to be created for each control)
+//  refer to selection for name
+//create a different proc for each shape. 

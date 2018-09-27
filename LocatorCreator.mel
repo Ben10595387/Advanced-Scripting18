@@ -26,25 +26,7 @@ create a window
     window needs tabs, color picker, name(whole name or just suffix?), shape of Ctrl.
 for each selection 
 color
-global proc ColorControls(string $Ctrl[], int $color)//assigning type of string Ctrl[] to Color Controls 
-//Sets color of specified control to a specific color. 
-//Can go into Layer editor and refer to the # of color there. 
-//enable override on $Ctrl
-string $shapes[];
-//Find shape node[s] on $shape
-$shapes = `listRelatives -shapes $Ctrl`;
-for ($shape in $shapes)
-{
-    if (`nodetype = $shape` == "nurbsCurve")
-    {
-    setAttr ($shape + ".overrideEnabled")1; //allows us to override color and turns it on (1)
-    setAttr ($shape + ".overrideColor") $color;
-    } else {
-        warning ("Selected object is not a Curve.");
-    }
-    
-}
-//set $Ctrl color to $color 
+
 
 global proc LocatorCreator ()
 {
