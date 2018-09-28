@@ -1,4 +1,34 @@
 //create window
+{
+    
+global proc SelectColor(float $RGBValues[]){
+    colorEditor;
+ if (`colorEditor -query -result`) {
+    //float $values[];
+    $RGBValues = `colorEditor -query -rgb`;
+    }
+}
+string $window = `window -title "Controller Creator"
+       -widthHeight 300 200`;
+    columnLayout-adjustableColumn true;
+    optionMenu -width 500 -label "Shape Selection" Shape;
+            menuItem -label "Circle";
+            menuItem -label "Square"; 
+            menuItem -label "Corner";
+            menuItem -label "Arc";
+            menuItem -label "Diamond" Shape;
+        string $shape = `optionMenu -query -v Shape`;// this should go in a different proc.
+
+    float $values[];
+
+    button -label "Select Color" -actOnPress(SelectColor($values));//Calls a procedure on click. 
+    button -label "Create Controls";
+    //assign RGBValues to color of Curves. 
+showWindow $window;
+}
+
+
+colorEditor;//brings up color window. 
 //how big is it? 
 //create buttons and panels- how big are those? 
 //one for color swatches.
