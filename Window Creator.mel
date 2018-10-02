@@ -1,37 +1,90 @@
-//create window
-{
-    
-global proc SelectColor(float $RGBValues[]){
+global proc float[] SelectColor(){//returns RGBValues [] 
     colorEditor;
+    global float $RGBValues[];
  if (`colorEditor -query -result`) {
-    //float $values[];
     $RGBValues = `colorEditor -query -rgb`;
     }
+return $RGBValues;
 }
-string $window = `window -title "Controller Creator"
+
+global proc ColorControl(`SelectColor()`){
+    $RGBValues = SelectColor();
+    setAttr "nurbsCircle.overrideEnabled" 1;
+    setAttr ($shape + ".overrideColor") $RGBValues;
+    print "Colored";
+    }
+    
+global proc Rename(){
+    string $PaddingNum;
+    # of object in selection[] = rename ctrl based on name of that object -"Jnt" -"Geo" + "Ctrl"
+    print "Renamed";
+    }
+
+global proc MatchTransforms(){
+    matchTransform based on #of object selected in SelectedObject;
+    print "Transforms Matched";
+    }
+
+
+//needs to take info from RGBValues, shape info, 
+//and placements based on selection and each ctrl needs to be grped.
+global proc CreateControls(){//Final Button push Proc. 
+    string $SelectedObject[] = `ls -selection`;    
+    
+    
+    if(`optionMenu -query -v Shape` == "Circle"){//checks if output of optionMenu == Circle not working right now. 
+        for($item in $SelectedObject)
+        {
+            circle -center 0 0 0 -normal 0 1 0 -sw 360 -radius 1 -degree 3 -sections 8;
+            ColorControl();
+            Rename();
+            MatchTransforms();
+            //Group;
+            //rename "group1" "Ctrl_Grp";
+        }             
+    }
+    else{         
+        print "Warning: No Shape Selected"; 
+        } 
+    if(`optionMenu -query -v Shape` == "Circle"){
+        if(size ($SelectedObject) <= 0){                    
+            circle -center 0 0 0 -normal 0 1 0 -sw 360 -radius 1 -degree 3 -sections 8;
+            //Group;
+            //rename "group1" "Ctrl_Grp";
+        }             
+    }    
+}         
+
+    
+
+    //curve -bezier -d 3 -p -1 0 1 -p -1 0 1 -p -1 0 -1 -p -1 0 -1 -p -1 0 -1 -p 1 0 -1 -p 1 0 -1 -p 1 0 -1 -p 1 0 1 -p 1 0 1 -p 1 0 1 -p -1 0 1 -p -1 0 1 -k 0 -k 0 -k 0 -k 1 -k 1 -k 1 -k 2 -k 2 -k 2 -k 3 -k 3 -k 3 -k 4 -k 4 -k 4 ;
+    //Creates a square.
+
+    //curve -bezier -d 3 -p 0 0 -1 -p 0 0 -1 -p -1 0 0 -p -1 0 0 -p -1 0 0 -p 0 0 1 -p 0 0 1 -k 0 -k 0 -k 0 -k 1 -k 1 -k 1 -k 2 -k 2 -k 2 ;
+    //Creates a corner.
+
+    //circle -center 0 0 0 -normal 0 1 0 -sw 180 -radius 1 -degree 3 -sections 8;
+    //Creates an arc.
+
+    //curve -bezier -d 3 -p -1 0 0 -p -1 0 0 -p -0.590989 0 -0.202351 -p -0.394499 0 -0.398796 -p -0.198009 0 -0.595242 -p 0 0 -1 -p 0 0 -1 -p 0 0 -1 -p 0.210344 0 -0.597296 -p 0.412258 0 -0.39169 -p 0.614172 0 -0.186084 -p 1 0 0 -p 1 0 0 -p 1 0 0 -p 0.631462 0 0.174426 -p 0.40628 0 0.40159 -p 0.181098 0 0.628753 -p 0 0 1 -p 0 0 1 -p 0 0 1 -p -0.203337 0 0.582577 -p -0.39392 0 0.389832 -p -0.584502 0 0.197086 -p -1 0 0 -p -1 0 0 -k 0 -k 0 -k 0 -k 1 -k 1 -k 1 -k 2 -k 2 -k 2 -k 3 -k 3 -k 3 -k 4 -k 4 -k 4 -k 5 -k 5 -k 5 -k 6 -k 6 -k 6 -k 7 -k 7 -k 7 -k 8 -k 8 -k 8 ;
+    //Creates a diamond. 
+ 
+    //print "Created Controls";
+
+
+
+$window = `window -title "Controller Creator"
        -widthHeight 300 200`;
     columnLayout-adjustableColumn true;
-    optionMenu -width 500 -label "Shape Selection" Shape;
+    optionMenu -width 100 -label "Shape Selection" Shape;
+            menuItem -label "Assign Shape";
             menuItem -label "Circle";
             menuItem -label "Square"; 
             menuItem -label "Corner";
             menuItem -label "Arc";
-            menuItem -label "Diamond" Shape;
-        string $shape = `optionMenu -query -v Shape`;// this should go in a different proc.
+            menuItem -label "Diamond";
 
-    float $values[];
-
-    button -label "Select Color" -actOnPress(SelectColor($values));//Calls a procedure on click. 
-    button -label "Create Controls";
-    //assign RGBValues to color of Curves. 
+    button -label "Select Color" -command "SelectColor";//Calls a procedure on click. 
+    button -label "Create Controls" -command "CreateControls";
+    
 showWindow $window;
-}
-
-
-colorEditor;//brings up color window. 
-//how big is it? 
-//create buttons and panels- how big are those? 
-//one for color swatches.
-//shape checkboxes square, diamond, arc, circle, have each check box run a different
-//proc. 
-//
