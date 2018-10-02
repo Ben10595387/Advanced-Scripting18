@@ -1,16 +1,16 @@
 global proc float[] SelectColor(){//returns RGBValues [] 
     colorEditor;
-    float $RGBValues[];
+    global float $RGBValues[];
  if (`colorEditor -query -result`) {
     $RGBValues = `colorEditor -query -rgb`;
     }
 return $RGBValues;
 }
 
-global proc ColorControl(){
+global proc ColorControl(`SelectColor()`){
+    $RGBValues = SelectColor();
     setAttr "nurbsCircle.overrideEnabled" 1;
-    nurbsCircle.overrideRGBColors;
-    setAttr (curveRGBColor = $RGBValues);
+    setAttr ($shape + ".overrideColor") $RGBValues;
     print "Colored";
     }
     
@@ -29,8 +29,7 @@ global proc MatchTransforms(){
 //needs to take info from RGBValues, shape info, 
 //and placements based on selection and each ctrl needs to be grped.
 global proc CreateControls(){//Final Button push Proc. 
-    string $SelectedObject[] = `ls -selection`;
-    string $Ctrls[]; 
+    string $SelectedObject[] = `ls -selection`;    
     
     
     if(`optionMenu -query -v Shape` == "Circle"){//checks if output of optionMenu == Circle not working right now. 
