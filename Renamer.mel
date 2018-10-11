@@ -1,34 +1,8 @@
-//rename script
-RenameSelectedObject("cube_##_Geo");
-global proc RenameSelectedObject(string $input)
-    {
-        string $SelectedObject[] = `ls -selection`; //assigns selected object to array.
-        string $newarray[]; 
-        tokenize $input "#" $newarray; //tokenizes strings based on # symbol. 
-        int $begnumber = 1; //beginning number starting array.
-        int $recount = size($input) - (size($newarray[0]) + size($newarray[1])); //int resets to correct value. 
-
-        for($item in $SelectedObject)
-        {
-            string $PaddingNum;
-            int $SelectedAmount = 0;
-
-            for($i = 0; $i <= $begnumber; $i += 15)
-            {
-                $SelectedAmount++;
-            }
-
-            int $AmountRecount = $recount - $SelectedAmount;
-
-            for($i = 0; $i < $AmountRecount; $i++)
-            {
-                $PaddingNum += "0";
-            }
-
-            $PaddingNum += $begnumber;
-            $begnumber++;
-
-            string $Reorder = $newarray[0] + $PaddingNum + $newarray[1];
-            rename $item $Reorder;
-        }
-    }
+$window = `window -title "Rename Selected Objects" //look into dockControl 
+       -widthHeight 300 200`;
+    columnLayout-adjustableColumn true;
+    text -label "Input Name";
+    textField -edit -enterCommand "RenameSelectedObject(string $input)";   
+    button -label "Go" -command RenameSelectedObject;//Calls a procedure on click. 
+        
+showWindow $window;
