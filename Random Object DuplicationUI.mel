@@ -1,0 +1,22 @@
+string $mainWindow = "Random Placement";
+    if (`window -exists $mainWindow`)
+    {
+        deleteUI $mainWindow;
+    }
+
+$mainWindow = `window -title "Random Placement" $mainWindow`;
+string $mainColumn = `columnLayout -parent $mainWindow -adjustableColumn true`;
+
+string $RowLayout = `rowLayout -parent $mainColumn -numberOfColumns 2 -adjustableColumn 2`;
+text -parent $RowLayout -label "Duplicate";
+string $duplicIntField = `intField -parent $RowLayout -minValue 1 -value 7`;
+
+string $rangeRow = `rowLayout -parent $mainColumn -numberOfColumns 4`;
+text -parent $rangeRow -label "Range";
+string $xRange = `intField -parent $rangeRow -value 0`;
+string $yRange = `intField -parent $rangeRow -value 0`;
+string $zRange = `intField -parent $rangeRow -value 0`;
+
+string $button = `button -parent $mainColumn -label "Generate"`;
+
+showWindow $mainWindow;
