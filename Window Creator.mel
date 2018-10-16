@@ -1,4 +1,3 @@
-global float $RGBValues[];
 global proc SelectColor(){//returns RGBValues [] 
     global float $RGBValues[];
     colorEditor;   
