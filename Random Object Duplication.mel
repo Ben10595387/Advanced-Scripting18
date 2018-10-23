@@ -1,1 +1,42 @@
+string $mainWindow = "Random Placement";
+    if (`window -exists $mainWindow`)
+    {
+        deleteUI $mainWindow;
+    }
+
+$mainWindow = `window -title "Random Placement" $mainWindow`;
+string $mainColumn = `columnLayout -parent $mainWindow -adjustableColumn true`;
+
+string $RowLayout = `rowLayout -parent $mainColumn -numberOfColumns 2 -adjustableColumn 2`;
+text -parent $RowLayout -label "Duplicate";
+string $duplicIntField = `intField -parent $RowLayout -minValue 1 -value 7`;
+
+string $rangeRow = `rowLayout -parent $mainColumn -numberOfColumns 4`;
+text -parent $rangeRow -label "Range";
+string $xRange = `intField -parent $rangeRow -value 0`;
+string $yRange = `intField -parent $rangeRow -value 0`;
+string $zRange = `intField -parent $rangeRow -value 0`;
+
+string $button = `button -parent $mainColumn -label "Generate"`;
+
+showWindow $mainWindow;
+
+global proc string BlockD(){
+
+string $Poly[] = `ls -selection`;
+string $Blocks[];
+int $randAmount = rand (1, 50);
+
+if (size($Poly) <= 0)
+    warning "No object selected.";
+else 
+{
+    for ($i=0;$i < $randAmount; $i++)
+    {
+        duplicate -rr; 
+        move $Blocks -ws -wd -x rand(1,10) -y rand(1,10) -z rand(1,10);
+     }
+}
+return $Blocks;
+}
 
