@@ -1,0 +1,15 @@
+//source "./sourceTest";
+string $mainWindow = "Tools Menu";
+    if (`window -exists $mainWindow`)
+    {
+        deleteUI $mainWindow;
+    }
+     
+$window = `window -title "Tools Menu" //look into dockControl 
+       -widthHeight 300 200`;
+    columnLayout-adjustableColumn true;
+    button -label "Object Randomizer" source "./Random Object Duplication";
+    button -label "Rename Objects" source "./Renamer01";
+    button -label "Create Controls" source "./Control Creator";
+    
+showWindow $window;
