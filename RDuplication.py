@@ -1,18 +1,19 @@
 import maya.cmds as cmds
+import random
 
 def InitiateDuplication():
-    Poly[] = cmds.ls(sl = True)
-    Blocks[] = 1
+    Poly = cmds.ls(sl = True)
     randAmount = random.randint(1, 10)
-    RandX = random.randint(0, 10)
-    RandY = random.randint(0, 10)
-    RandZ = random.randint(0, 10)
-    print(RandX, RandY, RandZ)
     if len(Poly) <= 0:
-        cmds.warning "No object selected."
+        cmds.warning ("No object selected.")
     else:
         i  = 0
         while i < randAmount:
-            cmds.duplicate(rr=True) 
-            cmds.move(0+RandX, 0+RandY, 0+RandZ, Blocks ws=True wd=True)
+            RandX = random.randint(-50, 50)
+            RandY = random.randint(-10, 10)
+            RandZ = random.randint(-50, 50)
+            Blocks = cmds.duplicate(Poly[0], rr=True)
+            cmds.move((1*RandX), (1*RandY), (1*RandZ), Blocks, ws=True, wd=True)
             i += 1
+
+InitiateDuplication()
