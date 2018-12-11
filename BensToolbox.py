@@ -27,7 +27,7 @@ class Toolbox():
         if cmds.window(self.mWindow, q=True, exists=True):
             cmds.deleteUI(self.mWindow)
 
-    def renameWin(self):
+    def renamerUI(self):
         import Renamer
         reload(Renamer)
         renameTool = Renamer.RenamerUI()
